@@ -1,0 +1,155 @@
+﻿<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+@model IEnumerable<PartiesMaster>
+@{
+    ViewData["Title"] = "Index";
+
+    var users = ViewData["users"];
+    var votes = ViewData["voters"];
+    var parties = ViewData["parties"];
+}
+
+
+
+<div class="container" style="margin-top:10%">
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Election Summary</h2>
+            <hr />
+
+            <div style="display:flex;flex-direction:column;justify-content:flex-start">
+                <a class="btn btn-info text-white">
+                    <h3>Total Parties in Election</h3>
+                    <h4><b>@parties</b></h4>
+                </a>
+                <br />
+                <a class="btn btn-info text-white">
+                    <h3>Total Voters Registered</h3>
+                    <h4><b>@users</b></h4>
+                </a>
+                <br />
+                <a class="btn btn-info text-white">
+                    <h3>Total Voters</h3>
+                    <h4><b>@votes</b></h4>
+                </a>
+   
+            </div>
+
+        </div>
+        <div class="col-md-8">
+            <div style="margin-top:10%" id="chart"></div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="container" style="margin-top:15%">
+    <div class="row">
+        <div class="col-md-6 col-sm-12 col-lg-6"><h2>Manage Election Portal</h2></div>
+        <div class="col-md-6 col-sm-12 col-lg-6"><a class="btn btn-info text-white" style="float:right" asp-action="AddElectionParty" asp-controller="Manage">Add Election Parties</a></div>
+    </div>
+    <hr />
+    @if(Model.Count() > 0)
+    {
+         <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Party Type</th>
+                    <th>Party Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                    @foreach(var tab in Model)
+                    {
+                        <tr>
+                            <td>@tab.PartyType</td>
+                            <td>@tab.PartyName</td>
+                            <td class="btn-group">
+                                <a asp-action="UpdateElectionParties" asp-route-id="@tab.Id" class="btn btn-info text-white">Update</a>
+                                <a asp-action="DeleteParty" asp-route-id="@tab.Id" class="btn btn-danger text-white">Delete</a>
+
+                                 <a asp-action="ViewVotes" asp-route-id="@tab.Id" class="btn btn-info text-white">View Votes</a>
+                            </td>
+                            <td>
+                              
+                            </td>
+                        </tr>
+                    }
+            </tbody>
+        </table>
+        </div>
+    }
+    else
+    {
+        <h4 class="text-black-50">No Data Found!</h4>
+    }
+
+
+</div>
+
+
+
+
+@section scripts{
+    <script type="text/javascript">
+        Highcharts.chart('chart', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Election Summary'
+    },
+
+    xAxis: {
+        type: 'category',
+        labels: {
+            rotation: -45,
+            style: {
+                fontSize: '13px',
+                fontFamily: 'Verdana, sans-serif'
+            }
+        }
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Votes'
+        }
+    },
+    legend: {
+        enabled: false
+    },
+    tooltip: {
+        pointFormat: 'Total Votes: <b>{point.y:.1f}</b>'
+    },
+    series: [{
+        name: 'Population',
+        data: [
+            ['Total Parties', @parties],
+            ['Total Votes', @votes],
+            ['Total Voters', @users],
+
+        ],
+        dataLabels: {
+            enabled: true,
+            rotation: -90,
+            color: '#FFFFFF',
+            align: 'right',
+            format: '{point.y:.1f}', // one decimal
+            y: 10, // 10 pixels down from the top
+            style: {
+                fontSize: '13px',
+                fontFamily: 'Verdana, sans-serif'
+            }
+        }
+    }]
+});
+    </script>
+}

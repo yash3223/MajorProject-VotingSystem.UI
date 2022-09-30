@@ -1,0 +1,28 @@
+﻿@using VotingSystem.UI.Areas.Admin.Views
+@model VotesByPartyViewModel
+@{
+    ViewData["Title"] = "ViewVotes";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <div>
+                <h2>Votes for @Model.partiesMaster.PartyName</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        @if(Model.votes.Count() > 0)
+        {
+           
+            <h3 class="card bg-primary">Total Votes = @Model.votes.Count().ToString()</h3>
+        }
+        else
+        {
+            <h3 class="card bg-primary">Total Votes = 0</h3>
+        }
+    <h3></h3></div>
+
+</div>

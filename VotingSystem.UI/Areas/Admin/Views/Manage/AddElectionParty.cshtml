@@ -1,0 +1,38 @@
+﻿@model SmartVotingSystem.UI.Models.PartiesMaster
+
+@{
+    ViewData["Title"] = "AddElectionParty";
+}
+
+<h1>AddElectionParty</h1>
+
+<h4>PartiesMaster</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddElectionParties">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PartyType" class="control-label"></label>
+                <input asp-for="PartyType" class="form-control" />
+                <span asp-validation-for="PartyType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PartyName" class="control-label"></label>
+                <input asp-for="PartyName" class="form-control" />
+                <span asp-validation-for="PartyName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
